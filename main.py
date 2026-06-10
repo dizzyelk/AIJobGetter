@@ -1,20 +1,30 @@
 import time
+import random
 
 from DrissionPage._pages.chromium_page import ChromiumPage
 
+# 工作经验
 exp_list = ['在校/应届', '经验不限', '1年以内', '1-3年']
+# 工作岗位
+job_name_list = ['web', '前端']
 # 投递数量
-max_applies = 10
+max_applies = 50
 
 if __name__ == '__main__':
     page = ChromiumPage()
     page.get(f'https://www.zhipin.com/web/geek/jobs')
-    print("准备登陆")
-    input("登陆完成后回车继续任务")
 
-    time.sleep(2)
+    time.sleep(1)
+    login = page.ele('@ka=header-login')
+    if login:
+        login.click()
+        time.sleep(1)
+        while 'user' in page.url:
+            time.sleep(1)
+            print('请登录!')
+
     page.ele('.text-content').click()
-    time.sleep(2)
+    time.sleep(random.uniform(2, 5))
 
     count = 0
     applied_count = 1
@@ -27,15 +37,16 @@ if __name__ == '__main__':
         company = job.ele('.boss-name').text
         city = job.ele('.company-location').text
         tag_list = job.ele('.tag-list').text.split('\n')
-        if tag_list[0] in exp_list:
+        exists = any(keyword in job_name for keyword in job_name_list)
+        if exists and tag_list[0] in exp_list:
             print(f'正在投递 [公司]{company} {job_name} [地点]{city}')
             job.click()
-            time.sleep(2)
+            time.sleep(random.uniform(2, 5))
             page.ele('立即沟通').click()
-            time.sleep(2)
+            time.sleep(random.uniform(2, 5))
             page.ele('留在此页').click()
             print(f"当前共 {len(current_jobs)} 个职位，已投递 {applied_count} 个")
             applied_count += 1
-            time.sleep(2)
+            time.sleep(random.uniform(2, 5))
 
     print('已完成投递目标')
