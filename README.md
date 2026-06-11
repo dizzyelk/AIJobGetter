@@ -51,7 +51,7 @@ pip install DrissionPage
 ### 3. 运行脚本
 直接运行 `main.py` 文件：
 ```bash
-python main.py
+python auto_apply.py
 ```
 
 ### 4. 操作步骤
