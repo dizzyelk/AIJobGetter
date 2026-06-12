@@ -31,6 +31,10 @@ if __name__ == '__main__':
     job_list = page.ele('.rec-job-list')
     while applied_count <= max_applies:
         current_jobs = job_list.eles('.job-card-box')
+        if count == len(current_jobs):
+            time.sleep(1)
+            page.scroll.down(100)
+            continue
         job = current_jobs[count]
         count += 1
         job_name = job.ele('.job-name').text
